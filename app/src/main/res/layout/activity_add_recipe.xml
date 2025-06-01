@@ -38,8 +38,8 @@
             <!-- Cancel Button that allows users to cancel recipe creation and go back to previous activity -->
             <Button
                 android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="34dp"
                 android:text="Cancel"
                 android:textSize="12sp"
                 android:padding="1dp"
