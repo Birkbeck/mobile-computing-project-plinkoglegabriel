@@ -5,15 +5,76 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#F4FBF8">
 
+<!--    Toolbar (to navigate activities)-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#D9D9D9"
+        app:title="Home"
+        app:titleTextColor="@android:color/black"
+        app:navigationIcon="@drawable/baseline_menu_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+<!--    Title of the app displayed (Ladle Library) -->
     <TextView
+        android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="50dp"
+        android:text="Ladle Library"
+        android:textColor="@android:color/black"
+        android:textSize="38sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+<!--    Logo (made using figma) -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="225dp"
+        android:layout_height="277dp"
+        android:layout_marginTop="128dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+<!--    Button to access the list of user recipes -->
+    <Button
+        android:id="@+id/btnToRecipeList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Recipes"
+        android:drawablePadding="8dp"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#D9D9D9"
+        android:textColor="@color/black"
+        android:layout_marginTop="24dp" />
+
+<!--    Button to access the activity to add a new recipe-->
+    <Button
+        android:id="@+id/btnToAddRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Recipe"
+        android:drawablePadding="8dp"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@id/btnToRecipeList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#D9D9D9"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
