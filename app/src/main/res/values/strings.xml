@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">LadleLibrary</string>
+    <string name="app_name">Ladle Library</string>
+    <string name="add_recipe_title">Add New Recipe</string>
+    <string name="edit_recipe_title">Add New Recipe</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="title_label_text">Title</string>
+    <string name="photo_label_text">Photo (optional):</string>
+    <string name="upload_photo_text">Upload Photo:</string>
+    <string name="description_label_text">Short Description:</string>
+    <string name="ingredients_label_text">Ingredients:</string>
+    <string name="instructions_label_text">Instructions:</string>
+    <string name="category_label_text">Category:</string>
+    <string name="save_button_text">Save</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="recipe_list_title">Your Recipes</string>
+    <string name="sub_heading_text">Add Your First Recipe Now! (or) Select a Recipe to View Details!</string>
+    <string name="back_button_text">Back</string>
+    <string name="edit_button_text">Edit</string>
+
 </resources>

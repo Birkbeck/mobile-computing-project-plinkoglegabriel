@@ -33,7 +33,7 @@
         android:id="@+id/title_text_recipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Recipes"
+        android:text="@string/recipe_list_title"
         android:textSize="30sp"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:padding="15dp"
-        android:text="Add Your First Recipe Now! or Select a Recipe to View Details"
+        android:text="@string/sub_heading_text"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -82,7 +82,6 @@
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sub_heading" />
 
