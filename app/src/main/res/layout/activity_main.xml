@@ -8,18 +8,18 @@
     tools:context=".MainActivity"
     android:background="@color/primary">
 
-<!--    Toolbar (to navigate activities)-->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/secondary"
-        app:title="Home"
-        app:titleTextColor="@color/black"
-        app:navigationIcon="@drawable/baseline_menu_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--&lt;!&ndash;    Toolbar (to navigate activities)&ndash;&gt;-->
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/secondary"-->
+<!--        app:title="Home"-->
+<!--        app:titleTextColor="@color/black"-->
+<!--        app:navigationIcon="@drawable/baseline_menu_24"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
 <!--    Title of the app displayed (Ladle Library) -->
     <TextView
@@ -33,7 +33,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintBottom_toTopOf="@+id/logo_main"/>
 
 <!--    Logo (made using figma) -->
     <ImageView
@@ -44,7 +44,7 @@
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/app_title" />
 
 <!--    Button to access the list of user recipes -->
     <Button
