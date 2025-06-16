@@ -3,6 +3,10 @@ package co.uk.bbk.ladlelibrary
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.uk.bbk.ladlelibrary.databinding.ActivityMainBinding
+import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,12 +18,43 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.recipeListButtonMain.setOnClickListener {
+            val intent = Intent(this, RecipesActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.addButtonMain.setOnClickListener {
 //            implement
         }
 
-        binding.recipeListButtonMain.setOnClickListener {
-//            implement
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.action_home -> {
+                Log.i("BBK-LOG", "Button to Home clicked")
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+
+            }
+            R.id.action_see_list -> {
+                Log.i("BBK-LOG", "List of recipes button clicked")
+                // Handle add action
+                val intent = Intent(this, RecipesActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.action_add -> {
+                Log.i("BBK-LOG", "Add recipe button clicked")
+                // implement add recipe action
+            }
         }
+        return true
     }
 }
