@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.addButtonMain.setOnClickListener {
 //            implement
+            val intent = Intent(this, AddRecipeActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -53,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_add -> {
                 Log.i("BBK-LOG", "Add recipe button clicked")
                 // implement add recipe action
+                val intent = Intent(this, AddRecipeActivity::class.java)
+                startActivity(intent)
+                return true
             }
         }
         return true
