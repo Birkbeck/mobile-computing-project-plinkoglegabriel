@@ -1,5 +1,6 @@
 package co.uk.bbk.ladlelibrary
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,18 @@ class RecipeListAdapter(val data: List<RecipeItem>) : RecyclerView.Adapter<Recip
         holder.image.setBackgroundResource(data[position].imageResId)
         holder.title.text = data[position].title
         holder.description.text = data[position].shortDescription
+
+        holder.title.setOnClickListener {
+            val context = holder.title.context
+            val intent = Intent(context, ViewRecipeActivity::class.java)
+            intent.putExtra("title", data[position].title)
+            intent.putExtra("imageResId", data[position].imageResId)
+            intent.putExtra("description", data[position].shortDescription)
+            intent.putExtra("ingredients", data[position].ingredients)
+            intent.putExtra("instructions", data[position].instructions)
+            intent.putExtra("category", data[position].category)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = data.size
