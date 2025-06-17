@@ -7,58 +7,45 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import android.util.Log
+import android.view.Gravity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.findNavController
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-
-        binding.recipeListButtonMain.setOnClickListener {
-            val intent = Intent(this, RecipesActivity::class.java)
-            startActivity(intent)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        val navController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as
+                    NavHostFragment).navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph,
+            binding.drawerLayout)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        binding.navView.setNavigationItemSelectedListener {
+            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+            if(navController.currentDestination?.id != it.itemId) {
+                navController.navigate(it.itemId)
+            }
+            true
         }
-
-        binding.addButtonMain.setOnClickListener {
-//            implement
-            val intent = Intent(this, AddRecipeActivity::class.java)
-            startActivity(intent)
-        }
-
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_menu, menu)
-        return true
+    fun setTitle(title: String) {
+        supportActionBar?.title = title
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_home -> {
-                Log.i("BBK-LOG", "Button to Home clicked")
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                return true
-
-            }
-            R.id.action_see_list -> {
-                Log.i("BBK-LOG", "List of recipes button clicked")
-                // Handle add action
-                val intent = Intent(this, RecipesActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-            R.id.action_add -> {
-                Log.i("BBK-LOG", "Add recipe button clicked")
-                // implement add recipe action
-                val intent = Intent(this, AddRecipeActivity::class.java)
-                startActivity(intent)
-                return true
-            }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        val up = navController.navigateUp()
+        if(!up && !binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            binding.drawerLayout.openDrawer(Gravity.LEFT)
+            return false
         }
         return true
     }
