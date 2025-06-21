@@ -17,5 +17,14 @@
         android:id="@+id/recipeListFragment2"
         android:name="co.uk.bbk.ladlelibrary.RecipeListFragment"
         android:label="fragment_recipe_list"
-        tools:layout="@layout/fragment_recipe_list" />
+        tools:layout="@layout/fragment_recipe_list" >
+        <action
+            android:id="@+id/action_recipeListFragment2_to_viewRecipeFragment2"
+            app:destination="@id/viewRecipeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewRecipeFragment2"
+        android:name="co.uk.bbk.ladlelibrary.ViewRecipeFragment"
+        android:label="fragment_view_recipe"
+        tools:layout="@layout/fragment_view_recipe" />
 </navigation>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecipeListAdapter(val data: List<RecipeItem>) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
+class RecipeListAdapter(val data: List<RecipeItem>, val onRecipeClick: (RecipeItem) -> Unit) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val image = row.findViewById<View>(R.id.recipe_photo_item)
@@ -25,20 +25,13 @@ class RecipeListAdapter(val data: List<RecipeItem>) : RecyclerView.Adapter<Recip
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val recipe = data[position]
         holder.image.setBackgroundResource(data[position].imageResId)
         holder.title.text = data[position].title
         holder.description.text = data[position].shortDescription
 
         holder.title.setOnClickListener {
-            val context = holder.title.context
-            val intent = Intent(context, ViewRecipeActivity::class.java)
-            intent.putExtra("title", data[position].title)
-            intent.putExtra("imageResId", data[position].imageResId)
-            intent.putExtra("description", data[position].shortDescription)
-            intent.putExtra("ingredients", data[position].ingredients)
-            intent.putExtra("instructions", data[position].instructions)
-            intent.putExtra("category", data[position].category)
-            context.startActivity(intent)
+            onRecipeClick(recipe)
         }
     }
 
