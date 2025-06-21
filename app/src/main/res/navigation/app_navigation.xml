@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeListFragment2"
             app:destination="@id/recipeListFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_addRecipeFragment2"
+            app:destination="@id/addRecipeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/recipeListFragment2"
@@ -27,4 +30,8 @@
         android:name="co.uk.bbk.ladlelibrary.ViewRecipeFragment"
         android:label="fragment_view_recipe"
         tools:layout="@layout/fragment_view_recipe" />
+    <fragment
+        android:id="@+id/addRecipeFragment2"
+        android:name="co.uk.bbk.lab6.AddRecipeFragment"
+        android:label="AddRecipeFragment" />
 </navigation>

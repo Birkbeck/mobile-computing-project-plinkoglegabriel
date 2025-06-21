@@ -14,7 +14,7 @@
             app:showAsAction="never"/>
 
         <item
-            android:id="@+id/action_add"
+            android:id="@+id/addRecipeFragment2"
             android:icon="@drawable/ic_add"
             android:title="@string/add_recipe_title"
             app:showAsAction="never"/>

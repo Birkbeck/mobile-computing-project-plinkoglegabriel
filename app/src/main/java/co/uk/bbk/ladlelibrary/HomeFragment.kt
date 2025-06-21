@@ -34,8 +34,8 @@ class HomeFragment : Fragment() {
 
         Log.i("BBK-LOG","Button to add a new recipe clicked")
         binding.addButtonMain.setOnClickListener {
-            val intent = Intent(requireContext(), AddRecipeActivity::class.java)
-            startActivity(intent)
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_addRecipeFragment2)
         }
     }
 
