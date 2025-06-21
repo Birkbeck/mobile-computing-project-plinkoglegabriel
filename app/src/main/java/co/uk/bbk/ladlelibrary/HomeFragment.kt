@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -27,8 +28,8 @@ class HomeFragment : Fragment() {
 
         Log.i("BBK-LOG","Button to view recipes clicked")
         binding.recipeListButtonMain.setOnClickListener {
-            val intent = Intent(requireContext(), RecipesActivity::class.java)
-            startActivity(intent)
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_recipeListFragment2)
         }
 
         Log.i("BBK-LOG","Button to add a new recipe clicked")

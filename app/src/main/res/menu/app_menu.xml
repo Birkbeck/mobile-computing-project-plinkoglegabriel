@@ -8,7 +8,7 @@
             app:showAsAction="never"/>
 
         <item
-            android:id="@+id/action_see_list"
+            android:id="@+id/recipeListFragment2"
             android:icon="@drawable/ic_recipe_list"
             android:title="@string/recipe_list_title"
             app:showAsAction="never"/>
