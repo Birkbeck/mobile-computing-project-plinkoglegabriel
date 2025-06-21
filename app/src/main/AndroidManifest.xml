@@ -13,15 +13,6 @@
         android:theme="@style/Theme.LadleLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".ViewRecipeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecipesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddRecipeActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
