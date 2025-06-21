@@ -24,6 +24,12 @@
         <action
             android:id="@+id/action_recipeListFragment2_to_viewRecipeFragment2"
             app:destination="@id/viewRecipeFragment2" />
+        <action
+            android:id="@+id/action_recipeListFragment2_to_addRecipeFragment2"
+            app:destination="@id/addRecipeFragment2" />
+        <action
+            android:id="@+id/action_recipeListFragment2_to_editRecipeFragment2"
+            app:destination="@id/editRecipeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/viewRecipeFragment2"
@@ -34,4 +40,8 @@
         android:id="@+id/addRecipeFragment2"
         android:name="co.uk.bbk.lab6.AddRecipeFragment"
         android:label="AddRecipeFragment" />
+    <fragment
+        android:id="@+id/editRecipeFragment2"
+        android:name="co.uk.bbk.lab6.EditRecipeFragment"
+        android:label="EditRecipeFragment" />
 </navigation>

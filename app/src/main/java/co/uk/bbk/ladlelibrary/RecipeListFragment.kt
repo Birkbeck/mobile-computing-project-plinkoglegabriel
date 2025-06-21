@@ -33,7 +33,8 @@ class RecipeListFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.recyclerView.adapter = RecipeListAdapter(recipes) { recipe ->
+        binding.recyclerView.adapter = RecipeListAdapter(recipes,
+            onRecipeClick = { recipe ->
             val bundle = Bundle().apply {
                 putString("title", recipe.title)
                 putInt("imageResId", recipe.imageResId)
@@ -44,7 +45,20 @@ class RecipeListFragment : Fragment() {
             }
             requireActivity().supportFragmentManager.setFragmentResult("view_recipe", bundle)
             findNavController().navigate(R.id.viewRecipeFragment2, bundle)
-        }
+        },
+            onEditClick = { recipe ->
+                val bundle = Bundle().apply {
+                    putString("title", recipe.title)
+                    putInt("imageResId", recipe.imageResId)
+                    putString("description", recipe.shortDescription)
+                    putString("ingredients", recipe.ingredients)
+                    putString("instructions", recipe.instructions)
+                    putString("category", recipe.category)
+                }
+                requireActivity().supportFragmentManager.setFragmentResult("edit_recipe", bundle)
+                findNavController().navigate(R.id.editRecipeFragment2, bundle)
+            }
+        )
     }
 
     companion object {

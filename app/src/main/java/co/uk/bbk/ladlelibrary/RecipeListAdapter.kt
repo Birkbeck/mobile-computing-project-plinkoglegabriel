@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecipeListAdapter(val data: List<RecipeItem>, val onRecipeClick: (RecipeItem) -> Unit) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
+class RecipeListAdapter(val data: List<RecipeItem>, val onRecipeClick: (RecipeItem) -> Unit, val onEditClick: (RecipeItem) -> Unit) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val image = row.findViewById<View>(R.id.recipe_photo_item)
         val title = row.findViewById<TextView>(R.id.recipe_title_item)
         val description = row.findViewById<TextView>(R.id.recipe_description_item)
+        val edit = row.findViewById<View>(R.id.edit_button)
 
     }
 
@@ -32,6 +33,9 @@ class RecipeListAdapter(val data: List<RecipeItem>, val onRecipeClick: (RecipeIt
 
         holder.title.setOnClickListener {
             onRecipeClick(recipe)
+        }
+        holder.edit.setOnClickListener {
+            onEditClick(recipe)
         }
     }
 
