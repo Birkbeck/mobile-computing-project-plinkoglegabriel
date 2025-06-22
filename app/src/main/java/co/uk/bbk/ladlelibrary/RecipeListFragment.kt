@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.ladlelibrary.databinding.FragmentRecipeListBinding
+import androidx.fragment.app.viewModels
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class RecipeListFragment : Fragment() {
 
     private lateinit var binding: FragmentRecipeListBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

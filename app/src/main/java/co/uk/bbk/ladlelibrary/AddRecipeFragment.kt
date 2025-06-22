@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.databinding.FragmentAddRecipeBinding
+import androidx.fragment.app.viewModels
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class AddRecipeFragment : Fragment() {
-        private lateinit var binding: FragmentAddRecipeBinding
+    private lateinit var binding: FragmentAddRecipeBinding
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

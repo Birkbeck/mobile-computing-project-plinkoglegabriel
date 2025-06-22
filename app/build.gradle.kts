@@ -36,6 +36,7 @@ android {
 
     buildFeatures {
        viewBinding = true
+       dataBinding = true
     }
 }
 
@@ -55,4 +56,6 @@ dependencies {
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.7")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 }

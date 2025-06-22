@@ -9,9 +9,13 @@ import android.widget.ArrayAdapter
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.ViewRecipeFragment
 import co.uk.bbk.ladlelibrary.databinding.FragmentEditRecipeBinding
+import androidx.fragment.app.viewModels
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class EditRecipeFragment : Fragment() {
     private lateinit var binding: FragmentEditRecipeBinding
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
