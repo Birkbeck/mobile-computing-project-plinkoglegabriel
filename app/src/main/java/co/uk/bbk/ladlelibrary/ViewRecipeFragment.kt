@@ -1,6 +1,8 @@
 package co.uk.bbk.ladlelibrary
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,21 +27,23 @@ class ViewRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.setTitle("View Recipe")
-
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         val args = arguments
-        val imageResId = args?.getInt("imageResId") ?: 0
-        val title = args?.getString("title") ?: "No Title"
-        val description = args?.getString("description") ?: "No Description"
-        val ingredients = args?.getString("ingredients") ?: "No Ingredients"
-        val instructions = args?.getString("instructions") ?: "No Instructions"
-        val category = args?.getString("category") ?: "No Category"
+        args?.let {
+            val recipe = RecipeItem(
+                id = args.getInt("recipeId", 0),
+                imageResId = args.getInt("imageResId", 0),
+                title = args.getString("title") ?: "No Title",
+                shortDescription = args.getString("description") ?: "No Description",
+                ingredients = args.getString("ingredients") ?: "No Ingredients",
+                instructions = args.getString("instructions") ?: "No Instructions",
+                category = args.getString("category") ?: "No Category"
+            )
+            Log.i("BBK-LOG", "Recipe details received for: ${recipe.title}")
+            viewModel.setRecipe(recipe)
+        }
 
-        binding.recipePhotoView.setImageResource(imageResId)
-        binding.recipeTitle.text = title
-        binding.recipeDescription.text = description
-        binding.ingredients.text = ingredients
-        binding.instructions.text = instructions
-        binding.category.text = category
     }
 
     companion object {
