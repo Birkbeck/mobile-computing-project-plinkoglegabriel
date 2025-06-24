@@ -1,6 +1,7 @@
 package co.uk.bbk.ladlelibrary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.ladlelibrary.databinding.FragmentRecipeListBinding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 
 class RecipeListFragment : Fragment() {
 
@@ -20,6 +22,8 @@ class RecipeListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRecipeListBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -28,15 +32,22 @@ class RecipeListFragment : Fragment() {
         (activity as? MainActivity)?.setTitle("Your Recipes")
 
         // using temporary data for now
-        val recipes = listOf(
-            RecipeItem(1, R.drawable.pancakes, "Pancakes", "description of pancake recipe", "...", "...", "Breakfast"),
-            RecipeItem(2, R.drawable.lasagna, "Lasagna", "description of lasagna recipe", "...", "...", "Dinner")
-        )
+        if (viewModel.recipesList.value.isNullOrEmpty()) {
+            val recipes = listOf(
+                RecipeItem(1, R.drawable.pancakes, "Pancakes", "description of pancake recipe", "...", "...", "Breakfast"),
+                RecipeItem(2, R.drawable.lasagna, "Lasagna", "description of lasagna recipe", "...", "...", "Dinner")
+            )
+            viewModel.setRecipes(recipes)
+        }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.recyclerView.adapter = RecipeListAdapter(recipes,
+        Log.i("BBK-LOG","Button to add a new recipe clicked")
+        // obsever recipesList from the ViewModel checking for changes
+        viewModel.recipesList.observe(viewLifecycleOwner, Observer { recipes ->
+            binding.recyclerView.adapter = RecipeListAdapter(recipes,
             onRecipeClick = { recipe ->
+                Log.i("BBK-LOG","View recipe button clicked")
             val bundle = Bundle().apply {
                 putString("title", recipe.title)
                 putInt("imageResId", recipe.imageResId)
@@ -49,6 +60,7 @@ class RecipeListFragment : Fragment() {
             findNavController().navigate(R.id.viewRecipeFragment2, bundle)
         },
             onEditClick = { recipe ->
+                Log.i("BBK-LOG","Edit recipe button clicked")
                 val bundle = Bundle().apply {
                     putString("title", recipe.title)
                     putInt("imageResId", recipe.imageResId)
@@ -59,8 +71,13 @@ class RecipeListFragment : Fragment() {
                 }
                 requireActivity().supportFragmentManager.setFragmentResult("edit_recipe", bundle)
                 findNavController().navigate(R.id.editRecipeFragment2, bundle)
+            },
+            onDeleteClick = { recipe ->
+                Log.i("BBK-LOG","Delete recipe button clicked")
+                viewModel.deleteRecipe(recipe.id)
             }
-        )
+            )
+    })
     }
 
     companion object {
