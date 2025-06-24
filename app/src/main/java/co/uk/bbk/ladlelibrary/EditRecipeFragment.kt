@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import co.uk.bbk.ladlelibrary.MainActivity
-import co.uk.bbk.ladlelibrary.ViewRecipeFragment
 import co.uk.bbk.ladlelibrary.databinding.FragmentEditRecipeBinding
 import androidx.fragment.app.viewModels
-import co.uk.bbk.ladlelibrary.MainViewModel
+import co.uk.bbk.ladlelibrary.EditRecipeViewModel
 
 class EditRecipeFragment : Fragment() {
     private lateinit var binding: FragmentEditRecipeBinding
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: EditRecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

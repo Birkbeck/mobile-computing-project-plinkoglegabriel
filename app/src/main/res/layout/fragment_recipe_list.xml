@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.uk.bbk.ladlelibrary.MainViewModel" />
+            type="co.uk.bbk.ladlelibrary.RecipeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
