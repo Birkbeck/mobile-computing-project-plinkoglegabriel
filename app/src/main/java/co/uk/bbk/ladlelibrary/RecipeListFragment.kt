@@ -1,5 +1,6 @@
 package co.uk.bbk.ladlelibrary
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -74,7 +75,13 @@ class RecipeListFragment : Fragment() {
             },
             onDeleteClick = { recipe ->
                 Log.i("BBK-LOG","Delete recipe button clicked")
-                viewModel.deleteRecipe(recipe.id)
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Are you sure you want to delete this " + recipe.title + " recipe?")
+                    .setPositiveButton("Yes") { dialog, _ ->
+                        viewModel.deleteRecipe(recipe.id)
+                    }
+                    .setNegativeButton("No", null)
+                    .show()
             }
             )
     })
