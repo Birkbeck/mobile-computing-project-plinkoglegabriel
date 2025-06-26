@@ -1,5 +1,6 @@
 package co.uk.bbk.ladlelibrary
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,15 @@ class RecipeListViewModel : ViewModel() {
         val currentList = _recipesList.value?.toMutableList() ?: mutableListOf()
         currentList.add(recipe)
         _recipesList.value = currentList
+    }
+
+    fun showEditedRecipe(editedRecipe: RecipeItem) {
+        val currentList = _recipesList.value?.toMutableList() ?: mutableListOf()
+        val index = currentList.indexOfFirst { it.id == editedRecipe.id }
+        if (index != -1) {
+            currentList[index] = editedRecipe
+            _recipesList.value = currentList
+        }
     }
 
 }
