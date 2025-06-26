@@ -20,4 +20,10 @@ class RecipeListViewModel : ViewModel() {
         _recipesList.value = currentRecipeList
     }
 
+    fun addRecipe(recipe: RecipeItem) {
+        val currentList = _recipesList.value?.toMutableList() ?: mutableListOf()
+        currentList.add(recipe)
+        _recipesList.value = currentList
+    }
+
 }

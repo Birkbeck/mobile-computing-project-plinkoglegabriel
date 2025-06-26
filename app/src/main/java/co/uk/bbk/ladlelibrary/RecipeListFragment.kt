@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.ladlelibrary.databinding.FragmentRecipeListBinding
@@ -16,7 +17,7 @@ import androidx.lifecycle.Observer
 class RecipeListFragment : Fragment() {
 
     private lateinit var binding: FragmentRecipeListBinding
-    private val viewModel: RecipeListViewModel by viewModels()
+    private val viewModel: RecipeListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
