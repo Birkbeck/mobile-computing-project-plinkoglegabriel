@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 // consider for later
-//enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
-//}
+enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
+}
 
 // Data class storing recipe details
 @Entity(tableName = "Recipes")

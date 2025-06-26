@@ -8,8 +8,7 @@ import androidx.room.Update
 
 
 @Dao
-class RecipesDao {
-interface RecipeItemsDao {
+interface RecipesDao {
     @Query("SELECT * FROM Recipes;")
     suspend fun getAllRecipes(): List<RecipeItem>
 
@@ -21,8 +20,5 @@ interface RecipeItemsDao {
 
     @Delete
     suspend fun deleteRecipe(recipe: RecipeItem)
-
-}
-
 
 }
