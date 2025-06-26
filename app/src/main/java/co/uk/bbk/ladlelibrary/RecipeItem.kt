@@ -1,12 +1,21 @@
 package co.uk.bbk.ladlelibrary
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
+
+// consider for later
+//enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
+//}
+
 // Data class storing recipe details
+@Entity(tableName = "Recipes")
 data class RecipeItem(
-    val id: Int = 1,
+    @PrimaryKey(autoGenerate = true) val id: Long = 1,
     val imageResId: Int,
-    val title: String = "Recipe",
-    val shortDescription: String = "Short description of recipe",
-    val ingredients: String = "List of Ingredients needed to make recipe",
-    val instructions: String = "List of instructions to follow",
-    val category: String = "Category",
-)
+    val title: String,
+    val shortDescription: String,
+    val ingredients: String,
+    val instructions: String,
+    val category: String
+) : Serializable

@@ -15,7 +15,7 @@ class RecipeListViewModel : ViewModel() {
         _recipesList.value = recipes
     }
 
-    fun deleteRecipe(recipeId: Int) {
+    fun deleteRecipe(recipeId: Long) {
         val currentRecipeList = _recipesList.value?.toMutableList() ?: return
         currentRecipeList.removeAll { it.id == recipeId }
         _recipesList.value = currentRecipeList
