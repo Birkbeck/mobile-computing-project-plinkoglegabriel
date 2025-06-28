@@ -33,6 +33,12 @@ class AddRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setTitle("Add New Recipe")
+        // make sure the fields are empty when the fragment is created
+        viewModel.title.value = ""
+        viewModel.shortDescription.value = ""
+        viewModel.ingredients.value = ""
+        viewModel.instructions.value = ""
+        viewModel.category.value = ""
 
         // Handling options for the category spinner
         val categories = Category.entries.map { it.name }
@@ -60,15 +66,6 @@ class AddRecipeFragment : Fragment() {
                 findNavController().popBackStack()
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.title.value = ""
-        viewModel.shortDescription.value = ""
-        viewModel.ingredients.value = ""
-        viewModel.instructions.value = ""
-        viewModel.category.value = ""
     }
 
     companion object {
