@@ -1,11 +1,10 @@
-package gr.gkortsaridis.mobilecomputingdemolab08
+package co.uk.bbk.ladlelibrary
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.uk.bbk.ladlelibrary.R
 import co.uk.bbk.ladlelibrary.RecipeItem
 import co.uk.bbk.ladlelibrary.RecipesDao
 import kotlinx.coroutines.launch
@@ -16,6 +15,12 @@ class MainViewModel: ViewModel() {
     val recipes: LiveData<List<RecipeItem>> = _recipes
 
     var recipesDao: RecipesDao? = null
+
+    val title = MutableLiveData<String>()
+    val shortDescription = MutableLiveData<String>()
+    val ingredients = MutableLiveData<String>()
+    val instructions = MutableLiveData<String>()
+    val category = MutableLiveData<String>()
 
     fun readAllRecipes() {
         viewModelScope.launch {
