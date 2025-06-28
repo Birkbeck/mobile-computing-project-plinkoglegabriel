@@ -12,16 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import co.uk.bbk.ladlelibrary.EditRecipeViewModel
+import co.uk.bbk.ladlelibrary.Category
 import co.uk.bbk.ladlelibrary.MainActivity
+import co.uk.bbk.ladlelibrary.MainViewModel
+import co.uk.bbk.ladlelibrary.RecipeItem
 import co.uk.bbk.ladlelibrary.databinding.FragmentEditRecipeBinding
-import co.uk.bbk.ladlelibrary.RecipeListViewModel
 import kotlin.getValue
 
 class EditRecipeFragment : Fragment() {
     private lateinit var binding: FragmentEditRecipeBinding
-    private val viewModel: EditRecipeViewModel by viewModels()
-    private val recipeListViewModel: RecipeListViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+    private var category: Category = Category.Other
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,27 +39,27 @@ class EditRecipeFragment : Fragment() {
         (activity as MainActivity).setTitle("Edit Recipe")
 
         val args = arguments
-        val id = args?.getInt("id") ?: -1
-        val imageResId = args?.getInt("imageResId") ?: 0
-        val title = args?.getString("title") ?: "No Title"
+        val title = args?.getString("title") ?: "title"
         val shortDescription = args?.getString("description") ?: "No Description"
         val ingredients = args?.getString("ingredients") ?: "No Ingredients"
         val instructions = args?.getString("instructions") ?: "No Instructions"
-        val category = args?.getString("category") ?: "No Category"
+        val categoryString = requireNotNull(args?.getString("category")) { "category argument is required" }
 
-        viewModel.recipeId.value = id
-        viewModel.title.value = title
-        viewModel.shortDescription.value = shortDescription
-        viewModel.ingredients.value = ingredients
-        viewModel.instructions.value = instructions
-        viewModel.imageResId.value = imageResId
-        viewModel.category.value = category
+        binding.titleTextEdit.setText(title)
+        binding.descriptionInputEdit.setText(shortDescription)
+        binding.ingredientsInputEdit.setText(ingredients)
+        binding.instructionsInputEdit.setText(instructions)
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, viewModel.categories)
+        val categories = Category.entries.map { it.name }
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryInputEdit.adapter = adapter
 
-        val index = viewModel.getIndexOfSelectedCategory()
+        val currentCategory = Category.valueOf(categoryString)
+        category = currentCategory
+
+        val index = categories.indexOf(currentCategory.name)
         if (index != -1) {
             binding.categoryInputEdit.setSelection(index)
         }
@@ -66,21 +67,33 @@ class EditRecipeFragment : Fragment() {
         binding.categoryInputEdit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected( parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    viewModel.selectCategoryAt(position)
+                    category = Category.valueOf(categories[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
-                    viewModel.category.value = ""
+                    category = Category.Other
                 }
             }
 
-        viewModel.editedRecipe.observe(viewLifecycleOwner) { editedRecipe ->
-            editedRecipe?.let {
-                Log.i("BBK", "Received updated recipe with id: ${it.id}")
-                recipeListViewModel.showEditedRecipe(it)
+        binding.saveButtonEdit.setOnClickListener {
+            val editedTitle = binding.titleTextEdit.text.toString()
+            val editedShortDescription = binding.descriptionInputEdit.text.toString()
+            val editedIngredients = binding.ingredientsInputEdit.text.toString()
+            val editedInstructions = binding.instructionsInputEdit.text.toString()
+
+            val editedRecipe = RecipeItem(
+                    // image retrieval is a placeholder for now
+                    imageResId = args?.getInt("imageResId") ?: 0,
+                    title = editedTitle,
+                    shortDescription = editedShortDescription,
+                    ingredients = editedIngredients,
+                    instructions = editedInstructions,
+                    category = categoryString
+                )
+
+                viewModel.editRecipe(editedRecipe)
                 findNavController().popBackStack()
             }
-        }
     }
     companion object {
         @JvmStatic
