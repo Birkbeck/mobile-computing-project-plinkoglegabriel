@@ -12,13 +12,14 @@ import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.databinding.FragmentAddRecipeBinding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import co.uk.bbk.ladlelibrary.AddRecipeViewModel
-import co.uk.bbk.ladlelibrary.RecipeListViewModel
+import co.uk.bbk.ladlelibrary.Category
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class AddRecipeFragment : Fragment() {
     private lateinit var binding: FragmentAddRecipeBinding
-    private val viewModel: AddRecipeViewModel by viewModels()
-    private val recipeListViewModel: RecipeListViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+
+    private var category: Category = Category.Other
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,33 +34,30 @@ class AddRecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setTitle("Add New Recipe")
 
-        viewModel.recipe.observe(viewLifecycleOwner) { newRecipe ->
-            newRecipe?.let {
-                recipeListViewModel.addRecipe(it)
-                findNavController().popBackStack()
-                viewModel.clearRecipe()
-            }
-        }
-
         // Handling options for the category spinner
-        val categories = viewModel.categories
+        val categories = Category.entries.map { it.name }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryInputAdd.adapter = adapter
 
-        val index = viewModel.getIndexOfSelectedCategory()
-        if (index >= 0) {
-            binding.categoryInputAdd.setSelection(index)
-        }
-
         binding.categoryInputAdd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                viewModel.selectCategoryAt(position)
+                category = Category.values()[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                viewModel.selectCategoryAt(-1)
+                category = Category.Other
             }
+        }
+
+        binding.saveButtonAdd.setOnClickListener {
+            val title = binding.titleInputAdd.text.toString()
+            val shortDescription = binding.descriptionInputAdd.text.toString()
+            val ingredients = binding.ingredientsInputAdd.text.toString()
+            val instructions = binding.instructionsInputAdd.text.toString()
+
+            viewModel.addRecipe(title = title, shortDescription = shortDescription, ingredients = ingredients, instructions = instructions,  category = category.name)
+                findNavController().popBackStack()
         }
 
     }

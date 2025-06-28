@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="co.uk.bbk.ladlelibrary.AddRecipeViewModel" />
+            type="co.uk.bbk.ladlelibrary.MainViewModel" />
     </data>
 
     <FrameLayout
@@ -209,7 +209,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/secondary"
                     android:textColor="@color/black"
-                    android:onClick="@{() -> viewModel.addRecipe()}"
                     android:textSize="12sp"
                     android:padding="1dp"
                     app:layout_constraintTop_toBottomOf="@id/category_input_add"
