@@ -30,24 +30,11 @@
                 android:layout_height="wrap_content"
                 android:padding="40dp">
 
-                <!--            Cancel button allowing users to cancel any changes they may have mistakenly made or changed their mind about)-->
-                <Button
-                    android:id="@+id/cancel_button_edit"
-                    android:layout_width="60dp"
-                    android:layout_height="34dp"
-                    android:text="@string/cancel_button_text"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/secondary"
-                    android:textColor="@color/black"
-                    android:padding="4dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
                 <!--            Title of page/activity is the name of the recipe (placeholder for now) -->
                 <!--            The is given as an EditText so that users can change the name/title of the recipe here-->
                 <EditText
                     android:id="@+id/title_text_edit"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -55,23 +42,9 @@
                     android:text="@={viewModel.title}"
                     android:background="@color/secondary"
                     android:layout_margin="10dp"
-                    app:layout_constraintStart_toEndOf="@id/cancel_button_edit"
-                    app:layout_constraintEnd_toStartOf="@+id/delete_button_edit"
-                    app:layout_constraintTop_toTopOf="@id/cancel_button_edit"
-                    app:layout_constraintBottom_toBottomOf="@id/cancel_button_edit" />
-
-                <!--            Delete button (user can delete the recipe from here)-->
-                <Button
-                    android:id="@+id/delete_button_edit"
-                    android:layout_width="60dp"
-                    android:layout_height="34dp"
-                    android:text="@string/delete_button_text"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/secondary"
-                    android:textColor="@color/black"
-                    android:padding="4dp"
-                    app:layout_constraintTop_toTopOf="@id/cancel_button_edit"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/photo_upload_button_edit"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!--        Upload Photo option (potentially replacing an existing photo attached to the recipe-->
                 <ImageButton
@@ -84,7 +57,8 @@
                     android:textColor="@color/black"
                     android:padding="4dp"
                     android:layout_marginTop="25dp"
-                    app:layout_constraintTop_toBottomOf="@id/cancel_button_edit"
+                    android:contentDescription="@string/photo_label_text"
+                    app:layout_constraintTop_toBottomOf="@id/title_text_edit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
