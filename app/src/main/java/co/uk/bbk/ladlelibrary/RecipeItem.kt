@@ -4,14 +4,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-// consider for later
 enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
 }
 
 // Data class storing recipe details
 @Entity(tableName = "Recipes")
 data class RecipeItem(
-    @PrimaryKey(autoGenerate = true) val id: Long = 1,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val imageResId: Int,
     val title: String,
     val shortDescription: String,
