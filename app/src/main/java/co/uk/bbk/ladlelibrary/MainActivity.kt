@@ -8,15 +8,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.util.Log
 import android.view.Gravity
+import androidx.activity.viewModels
+
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.findNavController
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,6 +40,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        val dao = RecipesDatabase.getInstance(applicationContext).recipeDao()
+        viewModel.recipesDao = dao
+        viewModel.readAllRecipes()
+
     }
     fun setTitle(title: String) {
         supportActionBar?.title = title
