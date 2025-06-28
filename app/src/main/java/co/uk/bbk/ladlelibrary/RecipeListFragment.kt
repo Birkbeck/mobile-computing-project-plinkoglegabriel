@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.ladlelibrary.databinding.FragmentRecipeListBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import co.uk.bbk.ladlelibrary.MainViewModel
 
 class RecipeListFragment : Fragment() {
 
     private lateinit var binding: FragmentRecipeListBinding
-    private val viewModel: RecipeListViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var adapter: RecipeListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,21 +35,14 @@ class RecipeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.setTitle("Your Recipes")
 
-        // using temporary data for now
-        if (viewModel.recipesList.value.isNullOrEmpty()) {
-            val recipes = listOf(
-                RecipeItem(1, R.drawable.pancakes, "Pancakes", "description of pancake recipe", "...", "...", "Breakfast"),
-                RecipeItem(2, R.drawable.lasagna, "Lasagna", "description of lasagna recipe", "...", "...", "Dinner")
-            )
-            viewModel.setRecipes(recipes)
-        }
+        viewModel.readAllRecipes()
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         Log.i("BBK-LOG","Button to add a new recipe clicked")
-        // obsever recipesList from the ViewModel checking for changes
-        viewModel.recipesList.observe(viewLifecycleOwner, Observer { recipes ->
-            binding.recyclerView.adapter = RecipeListAdapter(recipes,
+
+        adapter = RecipeListAdapter(
+            emptyList(),
             onRecipeClick = { recipe ->
                 Log.i("BBK-LOG","View recipe button clicked")
             val bundle = Bundle().apply {
@@ -79,13 +74,19 @@ class RecipeListFragment : Fragment() {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Are you sure you want to delete this " + recipe.title + " recipe?")
                     .setPositiveButton("Yes") { dialog, _ ->
-                        viewModel.deleteRecipe(recipe.id)
+                        viewModel.deleteRecipe(recipe)
                     }
                     .setNegativeButton("No", null)
                     .show()
             }
             )
-    })
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
+
+        // obsever recipesList from the ViewModel checking for changes
+        viewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            adapter.updateRecipes(recipes)
+        }
     }
 
     companion object {

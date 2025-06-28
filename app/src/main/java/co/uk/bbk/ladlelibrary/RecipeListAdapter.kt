@@ -11,7 +11,7 @@ class RecipeListAdapter(var data: List<RecipeItem>, val onRecipeClick: (RecipeIt
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val image = row.findViewById<View>(R.id.recipe_photo_item)
         val title = row.findViewById<TextView>(R.id.recipe_title_item)
-        val description = row.findViewById<TextView>(R.id.recipe_description_item)
+        val shortDescription = row.findViewById<TextView>(R.id.recipe_description_item)
         val edit = row.findViewById<View>(R.id.edit_button)
         val delete = row.findViewById<View>(R.id.delete_button_item)
 
@@ -30,7 +30,7 @@ class RecipeListAdapter(var data: List<RecipeItem>, val onRecipeClick: (RecipeIt
         val recipe = data[position]
         holder.image.setBackgroundResource(data[position].imageResId)
         holder.title.text = data[position].title
-        holder.description.text = data[position].shortDescription
+        holder.shortDescription.text = data[position].shortDescription
 
         holder.title.setOnClickListener {
             onRecipeClick(recipe)
@@ -41,6 +41,11 @@ class RecipeListAdapter(var data: List<RecipeItem>, val onRecipeClick: (RecipeIt
         holder.delete.setOnClickListener {
             onDeleteClick(recipe)
         }
+    }
+
+    fun updateRecipes(newData: List<RecipeItem>) {
+        data = newData
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = data.size
