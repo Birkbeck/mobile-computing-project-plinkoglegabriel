@@ -46,6 +46,7 @@ class RecipeListFragment : Fragment() {
             onRecipeClick = { recipe ->
                 Log.i("BBK-LOG","View recipe button clicked")
             val bundle = Bundle().apply {
+                putLong("id", recipe.id)
                 putString("title", recipe.title)
                 putInt("imageResId", recipe.imageResId)
                 putString("description", recipe.shortDescription)
@@ -59,6 +60,7 @@ class RecipeListFragment : Fragment() {
             onEditClick = { recipe ->
                 Log.i("BBK-LOG","Edit recipe button clicked")
                 val bundle = Bundle().apply {
+                    putLong("id", recipe.id)
                     putString("title", recipe.title)
                     putInt("imageResId", recipe.imageResId)
                     putString("description", recipe.shortDescription)

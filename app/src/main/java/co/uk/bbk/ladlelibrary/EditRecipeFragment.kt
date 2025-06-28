@@ -39,16 +39,13 @@ class EditRecipeFragment : Fragment() {
         (activity as MainActivity).setTitle("Edit Recipe")
 
         val args = arguments
-        val title = args?.getString("title") ?: "title"
-        val shortDescription = args?.getString("description") ?: "No Description"
-        val ingredients = args?.getString("ingredients") ?: "No Ingredients"
-        val instructions = args?.getString("instructions") ?: "No Instructions"
-        val categoryString = requireNotNull(args?.getString("category")) { "category argument is required" }
-
-        binding.titleTextEdit.setText(title)
-        binding.descriptionInputEdit.setText(shortDescription)
-        binding.ingredientsInputEdit.setText(ingredients)
-        binding.instructionsInputEdit.setText(instructions)
+        val id = args?.getLong("id") ?: -1
+        val categoryString = args?.getString("category") ?: "Other"
+        viewModel.title.value = args?.getString("title")
+        viewModel.shortDescription.value = args?.getString("description")
+        viewModel.ingredients.value = args?.getString("ingredients")
+        viewModel.instructions.value = args?.getString("instructions")
+        viewModel.category.value = categoryString
 
         val categories = Category.entries.map { it.name }
 
@@ -83,22 +80,23 @@ class EditRecipeFragment : Fragment() {
 
             val editedRecipe = RecipeItem(
                     // image retrieval is a placeholder for now
+                    id = id,
                     imageResId = args?.getInt("imageResId") ?: 0,
                     title = editedTitle,
                     shortDescription = editedShortDescription,
                     ingredients = editedIngredients,
                     instructions = editedInstructions,
-                    category = categoryString
+                    category = category.name
                 )
 
-                viewModel.editRecipe(editedRecipe)
-                findNavController().popBackStack()
+            viewModel.editRecipe(editedRecipe)
+            findNavController().popBackStack()
             }
     }
     companion object {
         @JvmStatic
         fun newInstance(
-            id: Int,
+            id: Long,
             imageResId: Int,
             title: String,
             description: String,
@@ -107,7 +105,7 @@ class EditRecipeFragment : Fragment() {
             category: String
         ) = EditRecipeFragment().apply {
             arguments = Bundle().apply {
-                putInt("id", id)
+                putLong("id", id)
                 putInt("imageResId", imageResId)
                 putString("title", title)
                 putString("description", description)
