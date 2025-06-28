@@ -28,7 +28,6 @@ class ViewRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.setTitle("View Recipe")
-        binding.viewModel = viewModel
         binding.lifecycleOwner = this
         val args = arguments
         args?.let {
