@@ -62,6 +62,15 @@ class AddRecipeFragment : Fragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.title.value = ""
+        viewModel.shortDescription.value = ""
+        viewModel.ingredients.value = ""
+        viewModel.instructions.value = ""
+        viewModel.category.value = ""
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = AddRecipeFragment()
