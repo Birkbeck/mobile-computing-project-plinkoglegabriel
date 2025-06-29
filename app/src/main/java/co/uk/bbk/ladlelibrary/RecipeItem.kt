@@ -11,8 +11,8 @@ enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
 @Entity(tableName = "Recipes")
 data class RecipeItem(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val imageResId: Int,
     val title: String,
+    val image: String,
     val shortDescription: String,
     val ingredients: String,
     val instructions: String,

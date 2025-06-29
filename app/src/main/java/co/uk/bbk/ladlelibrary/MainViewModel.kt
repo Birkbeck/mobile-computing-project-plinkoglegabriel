@@ -17,6 +17,7 @@ class MainViewModel: ViewModel() {
     var recipesDao: RecipesDao? = null
 
     val title = MutableLiveData<String>()
+    val image = MutableLiveData<String>()
     val shortDescription = MutableLiveData<String>()
     val ingredients = MutableLiveData<String>()
     val instructions = MutableLiveData<String>()
@@ -33,10 +34,10 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun addRecipe(title: String, shortDescription: String, ingredients: String, instructions: String, category: String) {
+    fun addRecipe(title: String, image: String, shortDescription: String, ingredients: String, instructions: String, category: String) {
         viewModelScope.launch {
             recipesDao?.let {
-                val recipe = RecipeItem(imageResId = R.drawable.placeholder_photo, title = title, shortDescription = shortDescription,
+                val recipe = RecipeItem(title = title, image = image, shortDescription = shortDescription,
                                         ingredients = ingredients, instructions = instructions,
                                         category = category)
                 it.insertRecipe(recipe)

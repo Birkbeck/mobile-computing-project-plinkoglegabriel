@@ -1,6 +1,8 @@
 package co.uk.bbk.lab6
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.Category
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.MainViewModel
+import co.uk.bbk.ladlelibrary.R
 import co.uk.bbk.ladlelibrary.RecipeItem
 import co.uk.bbk.ladlelibrary.databinding.FragmentEditRecipeBinding
 import kotlin.getValue
@@ -23,6 +28,18 @@ class EditRecipeFragment : Fragment() {
     private lateinit var binding: FragmentEditRecipeBinding
     private val viewModel: MainViewModel by activityViewModels()
     private var category: Category = Category.Other
+    private var image: String = ""
+    val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+
+            image = it.toString()
+            binding.photoUploadButtonEdit.setImageURI(it)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +59,24 @@ class EditRecipeFragment : Fragment() {
         val id = args?.getLong("id") ?: -1
         val categoryString = args?.getString("category") ?: "Other"
         viewModel.title.value = args?.getString("title")
+        viewModel.image.value = args?.getString("image") ?: ""
         viewModel.shortDescription.value = args?.getString("description")
         viewModel.ingredients.value = args?.getString("ingredients")
         viewModel.instructions.value = args?.getString("instructions")
         viewModel.category.value = categoryString
+
+        val uriString = args?.getString("image") ?: ""
+        image = uriString
+        // checking if the uriString is not empty before parsing to Uri to avoid crashing
+        if (uriString.isNotBlank()) {
+            val imageUri = Uri.parse(uriString)
+            try {
+                binding.photoUploadButtonEdit.setImageURI(imageUri)
+            } catch (e: Exception) {
+                Log.e("BBK-LOG", "Error: ${e.message}")
+                binding.photoUploadButtonEdit.setImageResource(R.drawable.placeholder_photo)
+            }
+        }
 
         val categories = Category.entries.map { it.name }
 
@@ -70,7 +101,7 @@ class EditRecipeFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>) {
                     category = Category.Other
                 }
-            }
+        }
 
         binding.saveButtonEdit.setOnClickListener {
             val editedTitle = binding.titleTextEdit.text.toString()
@@ -81,7 +112,7 @@ class EditRecipeFragment : Fragment() {
             val editedRecipe = RecipeItem(
                     // image retrieval is a placeholder for now
                     id = id,
-                    imageResId = args?.getInt("imageResId") ?: 0,
+                    image = image,
                     title = editedTitle,
                     shortDescription = editedShortDescription,
                     ingredients = editedIngredients,
@@ -91,13 +122,17 @@ class EditRecipeFragment : Fragment() {
 
             viewModel.editRecipe(editedRecipe)
             findNavController().popBackStack()
-            }
+        }
+
+        binding.photoUploadButtonEdit.setOnClickListener {
+            imagePicker.launch("image/*")
+        }
     }
     companion object {
         @JvmStatic
         fun newInstance(
             id: Long,
-            imageResId: Int,
+            image: String,
             title: String,
             description: String,
             ingredients: String,
@@ -106,7 +141,7 @@ class EditRecipeFragment : Fragment() {
         ) = EditRecipeFragment().apply {
             arguments = Bundle().apply {
                 putLong("id", id)
-                putInt("imageResId", imageResId)
+                putString("image", image)
                 putString("title", title)
                 putString("description", description)
                 putString("ingredients", ingredients)

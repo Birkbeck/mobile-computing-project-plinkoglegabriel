@@ -1,5 +1,7 @@
 package co.uk.bbk.lab6
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.databinding.FragmentAddRecipeBinding
@@ -18,6 +21,18 @@ import co.uk.bbk.ladlelibrary.MainViewModel
 class AddRecipeFragment : Fragment() {
     private lateinit var binding: FragmentAddRecipeBinding
     private val viewModel: MainViewModel by activityViewModels()
+    private var image: String = ""
+    val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+
+            image = it.toString()
+            binding.photoUploadButtonAdd.setImageURI(it)
+        }
+    }
 
     private var category: Category = Category.Other
 
@@ -62,8 +77,12 @@ class AddRecipeFragment : Fragment() {
             val ingredients = binding.ingredientsInputAdd.text.toString()
             val instructions = binding.instructionsInputAdd.text.toString()
 
-            viewModel.addRecipe(title = title, shortDescription = shortDescription, ingredients = ingredients, instructions = instructions,  category = category.name)
+            viewModel.addRecipe(title = title, image = image, shortDescription = shortDescription, ingredients = ingredients, instructions = instructions,  category = category.name)
                 findNavController().popBackStack()
+        }
+
+        binding.photoUploadButtonAdd.setOnClickListener {
+            imagePicker.launch("image/*")
         }
 
     }

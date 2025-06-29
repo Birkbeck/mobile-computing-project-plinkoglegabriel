@@ -1,10 +1,13 @@
 package co.uk.bbk.ladlelibrary
 
 import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import co.uk.bbk.ladlelibrary.databinding.HeaderItemViewBinding
 import co.uk.bbk.ladlelibrary.databinding.RecipeItemViewBinding
@@ -68,7 +71,19 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
                 val holder = holder as MyViewHolder
                 holder.binding.recipeTitleItem.text = recipe.title
                 holder.binding.recipeDescriptionItem.text = recipe.shortDescription
-                holder.binding.recipePhotoItem.setBackgroundResource(recipe.imageResId)
+
+                val uriString = recipe.image ?: ""
+                // checking if the uriString is not empty before parsing to Uri to avoid crashing
+                if (uriString.isNotBlank()) {
+                    val imageUri = Uri.parse(uriString)
+                    try {
+                        holder.binding.recipePhotoItem.setImageURI(imageUri)
+                    } catch (e: Exception) {
+                        Log.e("BBK-LOG", "Error: ${e.message}")
+                        holder.binding.recipePhotoItem.setImageResource(R.drawable.placeholder_photo)
+                    }
+                }
+
                 // set the click listeners for the buttons in the recipe item
                 holder.binding.recipeTitleItem.setOnClickListener {
                     onRecipeClick(recipe)
@@ -98,6 +113,7 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
                         items.map { RecipeListItem.Recipe(it) }
             }
     }
+
     // override the getItemCount method to return the size of the data
     override fun getItemCount(): Int = data.size
 }
