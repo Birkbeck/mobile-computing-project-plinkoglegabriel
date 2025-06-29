@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:padding="15dp"
-                android:text="@string/sub_heading_text"
+                android:text='@{viewModel.recipes.size() == 0 ? @string/add_first_recipe : @string/select_recipe}'
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
