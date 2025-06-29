@@ -79,7 +79,7 @@ class EditRecipeFragment : Fragment() {
             }
         }
 
-        val categories = listOf("Please select a category") + Category.entries.map { it.name }
+        val categories = Category.entries.map { it.name }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -96,7 +96,7 @@ class EditRecipeFragment : Fragment() {
         binding.categoryInputEdit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected( parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    category = if (position == 0) Category.Other else Category.valueOf(categories[position])
+                    category = Category.valueOf(categories[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
