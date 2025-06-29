@@ -55,13 +55,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:gravity="center"
+                        android:background="@color/secondary"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@={viewModel.title}" />
                 </com.google.android.material.textfield.TextInputLayout>
-                
+
                 <!--        Upload Photo option (potentially replacing an existing photo attached to the recipe-->
                 <ImageButton
                     android:id="@+id/photo_upload_button_edit"
