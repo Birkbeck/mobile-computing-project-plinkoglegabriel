@@ -48,7 +48,7 @@ class RecipeListFragment : Fragment() {
             val bundle = Bundle().apply {
                 putLong("id", recipe.id)
                 putString("title", recipe.title)
-                putInt("imageResId", recipe.imageResId)
+                putString("image", recipe.image)
                 putString("description", recipe.shortDescription)
                 putString("ingredients", recipe.ingredients)
                 putString("instructions", recipe.instructions)
@@ -62,7 +62,7 @@ class RecipeListFragment : Fragment() {
                 val bundle = Bundle().apply {
                     putLong("id", recipe.id)
                     putString("title", recipe.title)
-                    putInt("imageResId", recipe.imageResId)
+                    putString("image", recipe.image)
                     putString("description", recipe.shortDescription)
                     putString("ingredients", recipe.ingredients)
                     putString("instructions", recipe.instructions)

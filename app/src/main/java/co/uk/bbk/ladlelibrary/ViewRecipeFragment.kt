@@ -32,7 +32,7 @@ class ViewRecipeFragment : Fragment() {
         val args = arguments
         args?.let {
             val recipe = RecipeItem(
-                imageResId = args.getInt("imageResId", 0),
+                image = args.getString("image", R.drawable.placeholder_photo.toString()),
                 title = args.getString("title") ?: "No Title",
                 shortDescription = args.getString("description") ?: "No Description",
                 ingredients = args.getString("ingredients") ?: "No Ingredients",
@@ -46,7 +46,7 @@ class ViewRecipeFragment : Fragment() {
             binding.ingredients.text = recipe.ingredients
             binding.instructions.text = recipe.instructions
             binding.category.text = recipe.category
-            binding.recipePhotoView.setImageResource(recipe.imageResId)
+            binding.recipePhotoView.setImageResource(recipe.image.toInt())
         }
 
 
@@ -55,16 +55,16 @@ class ViewRecipeFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(
-            imageResId: Int,
             title: String,
+            image: String,
             description: String,
             ingredients: String,
             instructions: String,
             category: String
         ) = ViewRecipeFragment().apply {
             arguments = Bundle().apply {
-                putInt("imageResId", imageResId)
                 putString("title", title)
+                putString("image", image)
                 putString("description", description)
                 putString("ingredients", ingredients)
                 putString("instructions", instructions)
