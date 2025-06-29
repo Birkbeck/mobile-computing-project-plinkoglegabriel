@@ -89,6 +89,11 @@ class RecipeListFragment : Fragment() {
         viewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             adapter.updateRecipes(recipes)
         }
+        // on click listener that directs to add recipe fragment
+        binding.addButtonRecipes.setOnClickListener {
+            Log.i("BBK-LOG","Button to add a new recipe clicked")
+            findNavController().navigate(R.id.action_recipeListFragment2_to_addRecipeFragment2)
+        }
     }
 
     companion object {
