@@ -49,12 +49,16 @@ class ViewRecipeFragment : Fragment() {
             binding.ingredients.text = recipe.ingredients
             binding.instructions.text = recipe.instructions
             binding.category.text = recipe.category
-            try {
-                val imageUri = Uri.parse(recipe.image)
-                binding.recipePhotoView.setImageURI(imageUri)
-            } catch (e: Exception) {
-                Log.e("BBK-LOG", "Error parsing image URI: ${e.message}")
+            if (recipe.image.isNullOrBlank()) {
                 binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
+            } else {
+                try {
+                    val imageUri = Uri.parse(recipe.image)
+                    binding.recipePhotoView.setImageURI(imageUri)
+                } catch (e: Exception) {
+                    Log.e("BBK-LOG", "Error parsing image URI: ${e.message}")
+                    binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
+                }
             }
             binding.editButton.setOnClickListener {
                 Log.i("BBK-LOG","Edit recipe button clicked")
