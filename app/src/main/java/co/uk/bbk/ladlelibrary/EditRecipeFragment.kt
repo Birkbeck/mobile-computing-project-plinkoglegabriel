@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -78,7 +79,7 @@ class EditRecipeFragment : Fragment() {
             }
         }
 
-        val categories = Category.entries.map { it.name }
+        val categories = listOf("Please select a category") + Category.entries.map { it.name }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -95,7 +96,7 @@ class EditRecipeFragment : Fragment() {
         binding.categoryInputEdit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected( parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    category = Category.valueOf(categories[position])
+                    category = if (position == 0) Category.Other else Category.valueOf(categories[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -104,7 +105,16 @@ class EditRecipeFragment : Fragment() {
         }
 
         binding.saveButtonEdit.setOnClickListener {
-            val editedTitle = binding.titleTextEdit.text.toString()
+            val editedTitle = binding.titleInputEdit.text.toString()
+
+            // validating that the title and category is not empty
+            if (editedTitle.isEmpty()) {
+                binding.titleInputLayoutEdit.error = "Please enter a title"
+                return@setOnClickListener
+            } else {
+                binding.titleInputLayoutEdit.error = null
+            }
+
             val editedShortDescription = binding.descriptionInputEdit.text.toString()
             val editedIngredients = binding.ingredientsInputEdit.text.toString()
             val editedInstructions = binding.instructionsInputEdit.text.toString()

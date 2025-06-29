@@ -28,24 +28,40 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="40dp">
+                android:paddingTop="10dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:paddingBottom="40dp">
 
                 <!--            Title of page/activity is the name of the recipe (placeholder for now) -->
                 <!--            The is given as an EditText so that users can change the name/title of the recipe here-->
-                <EditText
-                    android:id="@+id/title_text_edit"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_input_layout_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
+                    app:errorEnabled="true"
                     android:gravity="center"
-                    android:text="@={viewModel.title}"
-                    android:background="@color/secondary"
-                    android:layout_margin="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/secondary"
+                    app:boxStrokeErrorColor="@color/secondary"
+                    app:errorTextColor="@color/error"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/photo_upload_button_edit"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@={viewModel.title}" />
+                </com.google.android.material.textfield.TextInputLayout>
+                
                 <!--        Upload Photo option (potentially replacing an existing photo attached to the recipe-->
                 <ImageButton
                     android:id="@+id/photo_upload_button_edit"
@@ -59,9 +75,8 @@
                     android:src="@drawable/placeholder_photo"
                     android:textColor="@color/black"
                     android:padding="3dp"
-                    android:layout_marginTop="25dp"
                     android:contentDescription="@string/photo_label_text"
-                    app:layout_constraintTop_toBottomOf="@id/title_text_edit"
+                    app:layout_constraintTop_toBottomOf="@id/title_input_layout_edit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
