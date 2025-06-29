@@ -1,5 +1,6 @@
 package co.uk.bbk.lab6
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -46,6 +47,7 @@ class AddRecipeFragment : Fragment() {
         binding.lifecycleOwner = this
         return binding.root
     }
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setTitle("Add New Recipe")
@@ -83,6 +85,13 @@ class AddRecipeFragment : Fragment() {
                 binding.titleInputLayoutAdd.error = null
             }
 
+            if (binding.categoryInputAdd.selectedItemPosition == 0) {
+                binding.categoryErrorText.visibility = View.VISIBLE
+                binding.categoryErrorText.text = "Please select a category"
+                return@setOnClickListener
+            } else {
+                binding.categoryErrorText.visibility = View.GONE
+            }
 
             val shortDescription = binding.descriptionInputAdd.text.toString()
             val ingredients = binding.ingredientsInputAdd.text.toString()

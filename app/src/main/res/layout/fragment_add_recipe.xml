@@ -79,7 +79,7 @@
                     app:errorTextColor="@color/error"
                     app:layout_constraintTop_toBottomOf="@id/title_label_add"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent" >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/title_input_add"
@@ -93,6 +93,8 @@
                         android:singleLine="true"
                         android:text="@={viewModel.title}" />
 
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <!-- label indicating a photo is an optional addition to recipe info -->
                 <TextView
                     android:id="@+id/photo_label_add"
@@ -102,7 +104,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    app:layout_constraintTop_toBottomOf="@id/title_input_add"
+                    app:layout_constraintTop_toBottomOf="@id/title_input_layout_add"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="25dp"/>
 
@@ -222,6 +224,16 @@
                     android:background="@color/secondary"
                     app:layout_constraintTop_toBottomOf="@id/category_label_add"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/category_error_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/error"
+                    android:text=""
+                    app:layout_constraintTop_toBottomOf="@id/category_input_add"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <!-- Save Button allowing a user to save their recipe -->
                 <!--            when logic is implemented, it should handle senarios when not all required fields have been filled in by failing to save and alerting the user -->
