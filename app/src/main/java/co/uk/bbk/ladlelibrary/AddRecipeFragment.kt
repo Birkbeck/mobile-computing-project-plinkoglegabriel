@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import co.uk.bbk.ladlelibrary.MainActivity
@@ -56,14 +57,14 @@ class AddRecipeFragment : Fragment() {
         viewModel.category.value = ""
 
         // Handling options for the category spinner
-        val categories = Category.entries.map { it.name }
+        val categories = listOf("Please select a category") + Category.entries.map { it.name }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryInputAdd.adapter = adapter
 
         binding.categoryInputAdd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                category = Category.values()[position]
+                category = if (position == 0) Category.Other else Category.valueOf(categories[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -73,6 +74,16 @@ class AddRecipeFragment : Fragment() {
 
         binding.saveButtonAdd.setOnClickListener {
             val title = binding.titleInputAdd.text.toString()
+
+          // validating that the title and category is not empty
+            if (title.isEmpty()) {
+                binding.titleInputLayoutAdd.error = "Please enter a title"
+                return@setOnClickListener
+            } else {
+                binding.titleInputLayoutAdd.error = null
+            }
+
+
             val shortDescription = binding.descriptionInputAdd.text.toString()
             val ingredients = binding.ingredientsInputAdd.text.toString()
             val instructions = binding.instructionsInputAdd.text.toString()
