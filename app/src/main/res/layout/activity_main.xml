@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/secondary"
             app:titleTextColor="@color/black"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIconTint="@color/black"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         <!-- Main content -->
         <androidx.fragment.app.FragmentContainerView
