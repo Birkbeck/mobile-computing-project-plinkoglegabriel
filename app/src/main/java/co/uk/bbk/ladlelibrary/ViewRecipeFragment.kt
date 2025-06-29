@@ -1,6 +1,7 @@
 package co.uk.bbk.ladlelibrary
 
 import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,7 +47,13 @@ class ViewRecipeFragment : Fragment() {
             binding.ingredients.text = recipe.ingredients
             binding.instructions.text = recipe.instructions
             binding.category.text = recipe.category
-            binding.recipePhotoView.setImageResource(recipe.image.toInt())
+            try {
+                val imageUri = Uri.parse(recipe.image)
+                binding.recipePhotoView.setImageURI(imageUri)
+            } catch (e: Exception) {
+                Log.e("BBK-LOG", "Error parsing image URI: ${e.message}")
+                binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
+            }
         }
 
 
