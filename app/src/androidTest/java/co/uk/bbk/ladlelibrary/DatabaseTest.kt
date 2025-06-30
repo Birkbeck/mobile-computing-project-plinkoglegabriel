@@ -82,6 +82,17 @@ class DatabaseTest {
         assertTrue(recipes.any { it.title == "Better Lasagna" })
         assertFalse(recipes.any { it.title == "Lasagna" })
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteRecipe() = runBlocking {
+        recipeDao.insertRecipe(greekSalad)
+        val recipeToDelete = recipeDao.getAllRecipes().first { it.title == "Greek Salad" }
+        recipeDao.deleteRecipe(recipeToDelete)
+
+        val recipes = recipeDao.getAllRecipes()
+        assertFalse(recipes.any { it.title == "Greek Salad" })
+    }
 }
 
 
