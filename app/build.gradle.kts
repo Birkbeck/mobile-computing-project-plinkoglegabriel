@@ -16,6 +16,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     buildTypes {
@@ -63,5 +64,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.7.0-alpha01")
     implementation("androidx.room:room-ktx:2.7.0-alpha01")
     kapt("androidx.room:room-compiler:2.7.0-alpha01")
+    testImplementation(kotlin("test"))
+
 
 }
