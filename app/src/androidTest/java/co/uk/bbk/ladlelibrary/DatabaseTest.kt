@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import org.junit.Test
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseTest {
@@ -64,10 +65,22 @@ class DatabaseTest {
         recipeDao.insertRecipe(greekSalad)
 
         val recipes = recipeDao.getAllRecipes()
-        assert(recipes.size == 3)
+        assertTrue(recipes.size == 3)
         assertTrue(recipes.any { it.title == "Pancakes" })
         assertTrue(recipes.any { it.title == "Lasagna" })
         assertTrue(recipes.any { it.title == "Greek Salad" })
+    }
+
+    @Test
+    fun updateRecipe() = runBlocking {
+        recipeDao.insertRecipe(lasagna)
+        val recipeToUpdate = recipeDao.getAllRecipes().first { it.title == "Lasagna" }
+        val updated = recipeToUpdate.copy(title = "Better Lasagna")
+        recipeDao.updateRecipe(updated)
+
+        val recipes = recipeDao.getAllRecipes()
+        assertTrue(recipes.any { it.title == "Better Lasagna" })
+        assertFalse(recipes.any { it.title == "Lasagna" })
     }
 }
 
