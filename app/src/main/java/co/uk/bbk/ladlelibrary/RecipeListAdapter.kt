@@ -104,13 +104,15 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
         notifyDataSetChanged()
     }
 
-    // function to group recipes in the recyclerView by category
+    // function to group recipes in the recyclerView by category (updated to be sorted)
     fun groupRecipesByCategory(recipes: List<RecipeItem>): List<RecipeListItem> {
         return recipes
             .groupBy { it.category }
+            .toSortedMap(compareBy { Category.valueOf(it).ordinal })
             .flatMap { (category, items) ->
                 listOf(RecipeListItem.Header(category)) +
-                        items.map { RecipeListItem.Recipe(it) }
+                        items.sortedBy { it.title.lowercase() }
+                            .map { RecipeListItem.Recipe(it) }
             }
     }
 
