@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -102,7 +103,14 @@ class AddRecipeFragment : Fragment() {
         }
 
         binding.photoUploadButtonAdd.setOnClickListener {
+            Log.i("BBK-LOG", "Photo upload button clicked in AddRecipeFragment")
             imagePicker.launch("image/*")
+        }
+
+        // Cancel button to go back to the previous fragment (debated whether to include given the back button available in the toolbar)
+        binding.cancelButtonAdd.setOnClickListener {
+            Log.i("BBK-LOG", "Cancel button clicked in AddRecipeFragment")
+            findNavController().popBackStack()
         }
 
     }
