@@ -80,4 +80,8 @@ class MainViewModel: ViewModel() {
             }
         }
     }
+
+    suspend fun uniqueTitleCheck(title: String): Boolean {
+        return recipesDao?.getTitle(title) != null
+    }
 }

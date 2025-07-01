@@ -17,9 +17,12 @@ import androidx.fragment.app.activityViewModels
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.databinding.FragmentAddRecipeBinding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.Category
 import co.uk.bbk.ladlelibrary.MainViewModel
+import kotlinx.coroutines.launch
 
 class AddRecipeFragment : Fragment() {
     private lateinit var binding: FragmentAddRecipeBinding
@@ -76,30 +79,47 @@ class AddRecipeFragment : Fragment() {
         }
 
         binding.saveButtonAdd.setOnClickListener {
-            val title = binding.titleInputAdd.text.toString()
+            lifecycleScope.launch {
+                val title = binding.titleInputAdd.text.toString()
 
-          // validating that the title and category is not empty
-            if (title.isEmpty()) {
-                binding.titleInputLayoutAdd.error = "Please enter a title"
-                return@setOnClickListener
-            } else {
-                binding.titleInputLayoutAdd.error = null
-            }
+                // validating that the title and category is not empty
+                if (title.isEmpty()) {
+                    binding.titleInputLayoutAdd.error = "Please enter a title"
+                    return@launch
+                } else {
+                    binding.titleInputLayoutAdd.error = null
+                }
 
-            if (binding.categoryInputAdd.selectedItemPosition == 0) {
-                binding.categoryErrorText.visibility = View.VISIBLE
-                binding.categoryErrorText.text = "Please select a category"
-                return@setOnClickListener
-            } else {
-                binding.categoryErrorText.visibility = View.GONE
-            }
+                if (viewModel.uniqueTitleCheck(title)) {
+                    binding.titleInputLayoutAdd.error =
+                        "Title already exists. Please choose another."
+                    return@launch
+                } else {
+                    binding.titleInputLayoutAdd.error = null
+                }
 
-            val shortDescription = binding.descriptionInputAdd.text.toString()
-            val ingredients = binding.ingredientsInputAdd.text.toString()
-            val instructions = binding.instructionsInputAdd.text.toString()
+                if (binding.categoryInputAdd.selectedItemPosition == 0) {
+                    binding.categoryErrorText.visibility = View.VISIBLE
+                    binding.categoryErrorText.text = "Please select a category"
+                    return@launch
+                } else {
+                    binding.categoryErrorText.visibility = View.GONE
+                }
 
-            viewModel.addRecipe(title = title, image = image, shortDescription = shortDescription, ingredients = ingredients, instructions = instructions,  category = category.name)
+                val shortDescription = binding.descriptionInputAdd.text.toString()
+                val ingredients = binding.ingredientsInputAdd.text.toString()
+                val instructions = binding.instructionsInputAdd.text.toString()
+
+                viewModel.addRecipe(
+                    title = title,
+                    image = image,
+                    shortDescription = shortDescription,
+                    ingredients = ingredients,
+                    instructions = instructions,
+                    category = category.name
+                )
                 findNavController().popBackStack()
+            }
         }
 
         binding.photoUploadButtonAdd.setOnClickListener {

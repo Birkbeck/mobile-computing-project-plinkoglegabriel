@@ -16,6 +16,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.Category
 import co.uk.bbk.ladlelibrary.MainActivity
@@ -23,6 +24,7 @@ import co.uk.bbk.ladlelibrary.MainViewModel
 import co.uk.bbk.ladlelibrary.R
 import co.uk.bbk.ladlelibrary.RecipeItem
 import co.uk.bbk.ladlelibrary.databinding.FragmentEditRecipeBinding
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class EditRecipeFragment : Fragment() {
@@ -81,7 +83,8 @@ class EditRecipeFragment : Fragment() {
 
         val categories = Category.entries.map { it.name }
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryInputEdit.adapter = adapter
 
@@ -95,44 +98,60 @@ class EditRecipeFragment : Fragment() {
 
         binding.categoryInputEdit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected( parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     category = Category.valueOf(categories[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
                     category = Category.Other
                 }
-        }
+            }
 
         binding.saveButtonEdit.setOnClickListener {
-            val editedTitle = binding.titleInputEdit.text.toString()
+            lifecycleScope.launch {
+                val editedTitle = binding.titleInputEdit.text.toString()
 
-            // validating that the title and category is not empty
-            if (editedTitle.isEmpty()) {
-                binding.titleInputLayoutEdit.error = "Please enter a title"
-                return@setOnClickListener
-            } else {
-                binding.titleInputLayoutEdit.error = null
-            }
+                // validating that the title and category is not empty
+                if (editedTitle.isEmpty()) {
+                    binding.titleInputLayoutEdit.error = "Please enter a title"
+                    return@launch
+                } else {
+                    binding.titleInputLayoutEdit.error = null
+                }
+
+                if (viewModel.uniqueTitleCheck(editedTitle)) {
+                    Log.i("BBK-LOG", "Title already exists: $editedTitle")
+                    binding.titleInputLayoutEdit.error =
+                        "Title already exists. Please choose another."
+                    return@launch
+                } else {
+                    binding.titleInputLayoutEdit.error = null
+                }
 
             val editedShortDescription = binding.descriptionInputEdit.text.toString()
             val editedIngredients = binding.ingredientsInputEdit.text.toString()
             val editedInstructions = binding.instructionsInputEdit.text.toString()
 
             val editedRecipe = RecipeItem(
-                    // image retrieval is a placeholder for now
-                    id = id,
-                    image = image,
-                    title = editedTitle,
-                    shortDescription = editedShortDescription,
-                    ingredients = editedIngredients,
-                    instructions = editedInstructions,
-                    category = category.name
-                )
+                // image retrieval is a placeholder for now
+                id = id,
+                image = image,
+                title = editedTitle,
+                shortDescription = editedShortDescription,
+                ingredients = editedIngredients,
+                instructions = editedInstructions,
+                category = category.name
+            )
 
             viewModel.editRecipe(editedRecipe)
             findNavController().popBackStack()
         }
+    }
 
         binding.photoUploadButtonEdit.setOnClickListener {
             imagePicker.launch("image/*")

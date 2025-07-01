@@ -45,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/add_recipe_title"
-                    android:textSize="29sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:gravity="center"
@@ -88,8 +88,7 @@
                         android:inputType="text"
                         android:background="@color/secondary"
                         app:boxStrokeErrorColor="@color/secondary"
-                        android:textSize="30sp"
-
+                        android:textSize="20sp"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@={viewModel.title}" />
@@ -247,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/error"
                     android:text=""
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     app:layout_constraintTop_toBottomOf="@id/category_input_add"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>

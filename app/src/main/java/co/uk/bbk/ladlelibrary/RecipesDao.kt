@@ -24,4 +24,7 @@ interface RecipesDao {
     @Query("SELECT * FROM Recipes WHERE id = :id")
     suspend fun getRecipe(id: Long): RecipeItem?
 
+    @Query("SELECT * FROM Recipes WHERE title = :title LIMIT 1")
+    suspend fun getTitle(title: String): RecipeItem?
+
 }
