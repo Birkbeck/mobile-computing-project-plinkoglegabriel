@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.uk.bbk.ladlelibrary.RecipeItem
-import co.uk.bbk.ladlelibrary.RecipesDao
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
@@ -81,7 +79,11 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    suspend fun uniqueTitleCheck(title: String): Boolean {
-        return recipesDao?.getTitle(title) != null
+    suspend fun uniqueTitleCheck(title: String, id: Long?): Boolean {
+        return if (id == null) {
+            recipesDao?.getTitle(title) != null
+        } else {
+            recipesDao?.getTitleWithId(title, id) != null
+        }
     }
 }

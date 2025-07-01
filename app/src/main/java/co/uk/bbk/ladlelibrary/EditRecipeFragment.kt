@@ -10,12 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.Category
@@ -124,10 +121,8 @@ class EditRecipeFragment : Fragment() {
                     binding.titleInputLayoutEdit.error = null
                 }
 
-                if (viewModel.uniqueTitleCheck(editedTitle)) {
-                    Log.i("BBK-LOG", "Title already exists: $editedTitle")
-                    binding.titleInputLayoutEdit.error =
-                        "Title already exists. Please choose another."
+                if (viewModel.uniqueTitleCheck(editedTitle, id) && editedTitle != viewModel.viewingRecipe.value?.title) {
+                    binding.titleInputLayoutEdit.error = "Title already exists. Please choose another."
                     return@launch
                 } else {
                     binding.titleInputLayoutEdit.error = null

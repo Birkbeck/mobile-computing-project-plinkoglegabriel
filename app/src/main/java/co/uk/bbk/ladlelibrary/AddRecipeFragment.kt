@@ -11,14 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import co.uk.bbk.ladlelibrary.MainActivity
 import co.uk.bbk.ladlelibrary.databinding.FragmentAddRecipeBinding
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import co.uk.bbk.ladlelibrary.Category
 import co.uk.bbk.ladlelibrary.MainViewModel
@@ -90,9 +87,8 @@ class AddRecipeFragment : Fragment() {
                     binding.titleInputLayoutAdd.error = null
                 }
 
-                if (viewModel.uniqueTitleCheck(title)) {
-                    binding.titleInputLayoutAdd.error =
-                        "Title already exists. Please choose another."
+                if (viewModel.uniqueTitleCheck(title, null)) {
+                    binding.titleInputLayoutAdd.error = "Title already exists. Please choose another."
                     return@launch
                 } else {
                     binding.titleInputLayoutAdd.error = null
