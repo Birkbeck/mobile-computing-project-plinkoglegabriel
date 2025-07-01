@@ -35,8 +35,13 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
         binding.navView.setNavigationItemSelectedListener {
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
-            if(navController.currentDestination?.id != it.itemId) {
-                navController.navigate(it.itemId)
+            val destination = it.itemId
+            val current = navController.currentDestination?.id
+            if (navController.graph.findNode(destination) != null && current != destination) {
+                Log.i("BBK-LOG", "Navigating to new fragment: $destination")
+                navController.navigate(destination)
+            } else {
+                Log.i("BBK-LOG", "Already on the selected destination")
             }
             true
         }
