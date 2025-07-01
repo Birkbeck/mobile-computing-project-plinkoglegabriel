@@ -12,8 +12,8 @@
 <!-- recipe image (if not uploaded, placeholder image is displayed)-->
     <ImageView
         android:id="@+id/recipe_photo_item"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:scaleType="centerCrop"
         android:clipToOutline="true"
         android:src="@drawable/placeholder_photo"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/recipe_photo_item"
         app:layout_constraintTop_toTopOf="@id/recipe_photo_item"
         app:layout_constraintEnd_toStartOf="@+id/edit_button"
@@ -44,7 +44,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@id/recipe_title_item"
         app:layout_constraintTop_toBottomOf="@id/recipe_title_item"
         app:layout_constraintEnd_toEndOf="@id/recipe_title_item"/>
@@ -52,8 +52,8 @@
     <!-- Edit button (directed to the activity to edit a specific recipe)-->
     <Button
         android:id="@+id/edit_button"
-        android:layout_width="60dp"
-        android:layout_height="34dp"
+        android:layout_width="65dp"
+        android:layout_height="48dp"
         android:backgroundTint="@color/secondary"
         android:textColor="@color/black"
         android:text="@string/edit_button_text"
@@ -65,8 +65,8 @@
     <!-- Delete button (if pressed, user is asked to confirm and if they do, the recipe is deleted) -->
     <Button
         android:id="@+id/delete_button_item"
-        android:layout_width="60dp"
-        android:layout_height="34dp"
+        android:layout_width="65dp"
+        android:layout_height="48dp"
         android:backgroundTint="@color/secondary"
         android:textColor="@color/black"
         android:text="@string/delete_button_text"

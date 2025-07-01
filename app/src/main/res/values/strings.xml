@@ -20,4 +20,5 @@
     <string name="edit_button_text">Edit</string>
     <string name="home_title">Home</string>
     <string name="logo_description">Logo</string>
+    <string name="no_need_for_hint_with_label_indicators"> </string>
 </resources>
