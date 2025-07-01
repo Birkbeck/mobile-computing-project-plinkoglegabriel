@@ -131,7 +131,7 @@
                     android:minLines="6"
                     android:padding="10dp"
                     android:textSize="20sp"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:autofillHints="@string/no_need_for_hint_with_label_indicators"
                     android:text="@={viewModel.ingredients}"
                     android:background="@color/secondary"
