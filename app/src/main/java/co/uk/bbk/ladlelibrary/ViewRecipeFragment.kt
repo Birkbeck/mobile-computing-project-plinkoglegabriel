@@ -18,6 +18,7 @@ class ViewRecipeFragment : Fragment() {
 
     private lateinit var binding: FragmentViewRecipeBinding
     private val viewModel: MainViewModel by activityViewModels()
+    private var recipeId: Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,62 +32,64 @@ class ViewRecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.setTitle("View Recipe")
         binding.lifecycleOwner = this
-        val args = arguments
-        args?.let {
-            val recipe = RecipeItem(
-                id = args.getLong("id", 0L),
-                image = args.getString("image", R.drawable.placeholder_photo.toString()),
-                title = args.getString("title") ?: "No Title",
-                shortDescription = args.getString("description") ?: "No Description",
-                ingredients = args.getString("ingredients") ?: "No Ingredients",
-                instructions = args.getString("instructions") ?: "No Instructions",
-                category = args.getString("category") ?: "No Category"
-            )
-            Log.i("BBK-LOG", "Recipe details received for: ${recipe.title}")
-            // recipe details bound to the UI
-            binding.recipeTitle.text = recipe.title
-            binding.recipeDescription.text = recipe.shortDescription
-            binding.ingredients.text = recipe.ingredients
-            binding.instructions.text = recipe.instructions
-            binding.category.text = recipe.category
-            if (recipe.image.isNullOrBlank()) {
-                binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
-            } else {
-                try {
-                    val imageUri = Uri.parse(recipe.image)
-                    binding.recipePhotoView.setImageURI(imageUri)
-                } catch (e: Exception) {
-                    Log.e("BBK-LOG", "Error parsing image URI: ${e.message}")
-                    binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
-                }
-            }
-            binding.editButton.setOnClickListener {
-                Log.i("BBK-LOG","Edit recipe button clicked")
-                val bundle = Bundle().apply {
-                    putLong("id", recipe.id)
-                    putString("title", recipe.title)
-                    putString("image", recipe.image)
-                    putString("description", recipe.shortDescription)
-                    putString("ingredients", recipe.ingredients)
-                    putString("instructions", recipe.instructions)
-                    putString("category", recipe.category)
-                }
-                requireActivity().supportFragmentManager.setFragmentResult("edit_recipe", bundle)
-                findNavController().navigate(R.id.editRecipeFragment2, bundle)
-            }
+        recipeId = arguments?.getLong("id", 0L) ?: 0L
+        viewModel.getRecipe(recipeId)
 
-            binding.deleteButtonView.setOnClickListener {
-                Log.i("BBK-LOG","Delete recipe button clicked (ViewRecipeFragment)")
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Are you sure you want to delete this " + recipe.title + " recipe?")
-                    .setPositiveButton("Yes") { dialog, _ ->
-                        viewModel.deleteRecipe(recipe)
-                        findNavController().popBackStack()
+        viewModel.viewingRecipe.observe(viewLifecycleOwner) { recipe ->
+            recipe?.let {
+                Log.i("BBK-LOG", "Recipe details received for: ${recipe.title}")
+                // recipe details bound to the UI
+                binding.recipeTitle.text = recipe.title
+                binding.recipeDescription.text = recipe.shortDescription
+                binding.ingredients.text = recipe.ingredients
+                binding.instructions.text = recipe.instructions
+                binding.category.text = recipe.category
+                if (recipe.image.isNullOrBlank()) {
+                    binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
+                } else {
+                    try {
+                        val imageUri = Uri.parse(recipe.image)
+                        binding.recipePhotoView.setImageURI(imageUri)
+                    } catch (e: Exception) {
+                        Log.e("BBK-LOG", "Error parsing image URI: ${e.message}")
+                        binding.recipePhotoView.setImageResource(R.drawable.placeholder_photo)
                     }
-                    .setNegativeButton("No", null)
-                    .show()
+                }
+                binding.editButton.setOnClickListener {
+                    Log.i("BBK-LOG", "Edit recipe button clicked")
+                    val bundle = Bundle().apply {
+                        putLong("id", recipe.id)
+                        putString("title", recipe.title)
+                        putString("image", recipe.image)
+                        putString("description", recipe.shortDescription)
+                        putString("ingredients", recipe.ingredients)
+                        putString("instructions", recipe.instructions)
+                        putString("category", recipe.category)
+                    }
+                    requireActivity().supportFragmentManager.setFragmentResult(
+                        "edit_recipe",
+                        bundle
+                    )
+                    findNavController().navigate(R.id.editRecipeFragment2, bundle)
+                }
+
+                binding.deleteButtonView.setOnClickListener {
+                    Log.i("BBK-LOG", "Delete recipe button clicked (ViewRecipeFragment)")
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Are you sure you want to delete this " + recipe.title + " recipe?")
+                        .setPositiveButton("Yes") { dialog, _ ->
+                            viewModel.deleteRecipe(recipe)
+                            findNavController().popBackStack()
+                        }
+                        .setNegativeButton("No", null)
+                        .show()
+                }
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        viewModel.getRecipe(recipeId)
     }
 
     companion object {

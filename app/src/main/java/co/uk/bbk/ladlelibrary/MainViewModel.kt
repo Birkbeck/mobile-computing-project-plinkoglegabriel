@@ -23,6 +23,9 @@ class MainViewModel: ViewModel() {
     val instructions = MutableLiveData<String>()
     val category = MutableLiveData<String>()
 
+    private val _viewingRecipe = MutableLiveData<RecipeItem?>()
+    val viewingRecipe: LiveData<RecipeItem?> = _viewingRecipe
+
     fun readAllRecipes() {
         viewModelScope.launch {
             recipesDao?.let {
@@ -68,5 +71,13 @@ class MainViewModel: ViewModel() {
             }
         }
 
+    }
+// getting a recipe by its id
+    fun getRecipe(id: Long) {
+        viewModelScope.launch {
+            recipesDao?.let { dao ->
+                _viewingRecipe.value = dao.getRecipe(id)
+            }
+        }
     }
 }
