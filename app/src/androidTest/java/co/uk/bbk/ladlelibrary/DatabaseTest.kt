@@ -63,6 +63,7 @@ class DatabaseTest {
     fun closeDb() = db.close()
 
     // Test to check if the database can insert and retrieve recipes correctly
+    // asserting true if the size of the list of recipes is 3 and the titles of all 3 recipes now exist in the database
     @Test
     @Throws(Exception::class)
     fun insertAndRetrieve() = runBlocking {
@@ -78,6 +79,7 @@ class DatabaseTest {
     }
 
     // Test to check if the database can update a recipe's title correctly in the database
+    // asserting true if the updated title exists in the list of recipes and false if the old title does not exist
     @Test
     fun updateRecipe() = runBlocking {
         recipeDao.insertRecipe(lasagna)
@@ -91,6 +93,7 @@ class DatabaseTest {
     }
 
     // Test to check if a recipe can be deleted correctly from the database
+    // asserting false if the size of the list of recipes decreases by 1 (indicating a successful deletion)
     @Test
     @Throws(Exception::class)
     fun deleteRecipe() = runBlocking {

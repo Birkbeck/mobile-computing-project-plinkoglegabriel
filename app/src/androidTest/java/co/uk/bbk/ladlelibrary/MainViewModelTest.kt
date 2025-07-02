@@ -50,6 +50,7 @@ class MainViewModelTest {
     fun closeDb() = db.close()
 
     // Test to check the uniqueTitleCheck function in view model works to detect a unique title
+    // asserting false if the title is not already in the database (unique)
     @Test
     @Throws(Exception::class)
     fun isUniqueTitle() = runBlocking {
@@ -57,6 +58,7 @@ class MainViewModelTest {
     }
 
     // Test to check the uniqueTitleCheck function in view model works to detect a non-unique title
+    // asserting true if the title is already in the database (not unique)
     @Test
     @Throws(Exception::class)
     fun isNotUniqueTitle() = runBlocking {
@@ -65,6 +67,7 @@ class MainViewModelTest {
     }
 
     // Test to check if the recipe is added correctly (the view model's LiveData updates properly after the addition)
+    // asserting true if the recipe is added and if the size of the list of recipes increases by 1
     @Test
     fun addRecipe() = runBlocking {
         val initialRecipeCount = viewModel.recipes.value?.size ?: 0
