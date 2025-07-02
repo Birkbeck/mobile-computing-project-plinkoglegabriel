@@ -13,6 +13,8 @@ import org.junit.Test
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
 
+
+// Test class to test the MainViewModel functionality
 @RunWith(AndroidJUnit4::class)
 class MainViewModelTest {
     // Initialising the DAO,database and viewModel variables
@@ -51,7 +53,7 @@ class MainViewModelTest {
     @Test
     @Throws(Exception::class)
     fun isUniqueTitle() = runBlocking {
-        assertFalse(viewModel.uniqueTitleCheck("Lasagna"))
+        assertFalse(viewModel.uniqueTitleCheck("Lasagna", null))
     }
 
     // Test to check the uniqueTitleCheck function in view model works to detect a non-unique title
@@ -59,7 +61,29 @@ class MainViewModelTest {
     @Throws(Exception::class)
     fun isNotUniqueTitle() = runBlocking {
         recipeDao.insertRecipe(lasagna)
-
-        assertTrue(viewModel.uniqueTitleCheck("Lasagna"))
+        assertTrue(viewModel.uniqueTitleCheck("Lasagna", null))
     }
+
+    // Test to check if the recipe is added correctly (the view model's LiveData updates properly after the addition)
+    @Test
+    fun addRecipe() = runBlocking {
+        val initialRecipeCount = viewModel.recipes.value?.size ?: 0
+
+        viewModel.addRecipe(
+            title = lasagna.title,
+            image = lasagna.image,
+            shortDescription = lasagna.shortDescription,
+            ingredients = lasagna.ingredients,
+            instructions = lasagna.instructions,
+            category = lasagna.category
+        )
+
+        // Waiting for the LiveData to update (450 milliseconds)
+        Thread.sleep(450)
+
+        val recipesWithAddition = viewModel.recipes.value ?: emptyList()
+        assertTrue(recipesWithAddition.any { it.title == "Lasagna" })
+        assertTrue(recipesWithAddition.size == initialRecipeCount + 1)
+    }
+
 }
