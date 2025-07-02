@@ -84,7 +84,7 @@ class AddRecipeFragment : Fragment() {
         // setting the category selected by the user as the category variable
         binding.categoryInputAdd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                category = Category.valueOf(categories[position])
+                category = if (position == 0) Category.Other else Category.valueOf(categories[position])
             }
             // set to "Other" in the default case when no category is selected (although this is blocked by later validation)
             override fun onNothingSelected(parent: AdapterView<*>) {
