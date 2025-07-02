@@ -13,11 +13,14 @@ import org.junit.Test
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
 
+// Test class to test the RecipesDatabase and RecipesDao functionality
 @RunWith(AndroidJUnit4::class)
 class DatabaseTest {
+    // Initialising the dao and database variables
     private lateinit var recipeDao: RecipesDao
     private lateinit var db: RecipesDatabase
 
+    // Sample recipes for testing
     private val pancakes = RecipeItem(
         title = "Pancakes",
         image = R.drawable.pancakes.toString(),
@@ -44,6 +47,7 @@ class DatabaseTest {
         category = "Lunch"
     )
 
+    // Setting up the database and dao before each test
     @Before
     fun createDb() {
         val context: Context = ApplicationProvider.getApplicationContext()
@@ -53,10 +57,12 @@ class DatabaseTest {
         recipeDao = db.recipeDao()
     }
 
+    // Closing the database after each test
     @After
     @Throws(IOException::class)
     fun closeDb() = db.close()
 
+    // Test to check if the database can insert and retrieve recipes correctly
     @Test
     @Throws(Exception::class)
     fun insertAndRetrieve() = runBlocking {
@@ -71,6 +77,7 @@ class DatabaseTest {
         assertTrue(recipes.any { it.title == "Greek Salad" })
     }
 
+    // Test to check if the database can update a recipe's title correctly in the database
     @Test
     fun updateRecipe() = runBlocking {
         recipeDao.insertRecipe(lasagna)
@@ -83,6 +90,7 @@ class DatabaseTest {
         assertFalse(recipes.any { it.title == "Lasagna" })
     }
 
+    // Test to check if a recipe can be deleted correctly from the database
     @Test
     @Throws(Exception::class)
     fun deleteRecipe() = runBlocking {
