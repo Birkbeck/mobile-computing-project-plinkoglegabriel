@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+// Enum class holding the list of recipe categories
 enum class Category { Breakfast, Brunch, Lunch, Dinner, Desserts, Other
 }
 
