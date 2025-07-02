@@ -45,13 +45,16 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
             // if the view type is header then inflate the header
             ITEM_VIEW_TYPE.HEADER.ordinal -> {
                 val binding = HeaderItemViewBinding.inflate(layout, parent, false)
+                Log.i("BBK-LOG", "Header view holder created")
                 HeaderViewHolder(binding)
             }
             // if the view type is recipe then inflate the recipe
             ITEM_VIEW_TYPE.RECIPE.ordinal -> {
                 val binding = RecipeItemViewBinding.inflate(layout, parent, false)
+                Log.i("BBK-LOG", "Recipe view holder created")
                 MyViewHolder(binding)
             } else -> {
+                Log.e("BBK-LOG", "Invalid view type: $viewType")
                 throw IllegalArgumentException("Invalid view type")
             }
         }
@@ -87,12 +90,15 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
                 // set the click listeners for the buttons in the recipe item
                 holder.binding.recipeTitleItem.setOnClickListener {
                     onRecipeClick(recipe)
+                    Log.i("BBK-LOG", "Recipe title clicked: ${recipe.title}")
                 }
                 holder.binding.editButton.setOnClickListener {
                     onEditClick(recipe)
+                    Log.i("BBK-LOG", "Edit button clicked for recipe: ${recipe.title} (from Recipe list)")
                 }
                 holder.binding.deleteButtonItem.setOnClickListener {
                     onDeleteClick(recipe)
+                    Log.i("BBK-LOG", "Delete button clicked for recipe: ${recipe.title} (from Recipe list)")
                 }
             }
         }
@@ -105,6 +111,8 @@ class RecipeListAdapter(var data: List<RecipeListItem>, val onRecipeClick: (Reci
     }
 
     // function to group recipes in the recyclerView by category (updated to be sorted)
+    // recipe items sorted alphabetically by title within each category
+    // categories are sorted by their ordinal value (defined in the Category enum (order eaten in day))
     fun groupRecipesByCategory(recipes: List<RecipeItem>): List<RecipeListItem> {
         return recipes
             .groupBy { it.category }
