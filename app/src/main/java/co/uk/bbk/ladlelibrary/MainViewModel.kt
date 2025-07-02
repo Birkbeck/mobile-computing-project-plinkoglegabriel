@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
+// The MainViewModel class is the ViewModel where the fragment and activity can access the data and business logic
 class MainViewModel: ViewModel() {
-
+    // MutableLiveData is used to hold the list of recipes, their details and the currently viewed recipe
     private val _recipes = MutableLiveData(listOf<RecipeItem>())
     val recipes: LiveData<List<RecipeItem>> = _recipes
 
+    // also initialising the RecipesDao to interact with the database
     var recipesDao: RecipesDao? = null
 
     val title = MutableLiveData<String>()
@@ -24,6 +26,7 @@ class MainViewModel: ViewModel() {
     private val _viewingRecipe = MutableLiveData<RecipeItem?>()
     val viewingRecipe: LiveData<RecipeItem?> = _viewingRecipe
 
+    // function to read all recipes from the database
     fun readAllRecipes() {
         viewModelScope.launch {
             recipesDao?.let {
@@ -35,6 +38,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    // function to add a new recipe to the database
     fun addRecipe(title: String, image: String, shortDescription: String, ingredients: String, instructions: String, category: String) {
         viewModelScope.launch {
             recipesDao?.let {
@@ -49,6 +53,7 @@ class MainViewModel: ViewModel() {
 
     }
 
+    // function to edit an existing recipe in the database
     fun editRecipe(recipe: RecipeItem) {
         viewModelScope.launch {
             recipesDao?.let {
@@ -60,6 +65,7 @@ class MainViewModel: ViewModel() {
 
     }
 
+    // function to delete a recipe from the database
     fun deleteRecipe(recipe: RecipeItem) {
         viewModelScope.launch {
             recipesDao?.let {
@@ -70,7 +76,8 @@ class MainViewModel: ViewModel() {
         }
 
     }
-// getting a recipe by its id
+
+    // getting a recipe by its id (from the database)
     fun getRecipe(id: Long) {
         viewModelScope.launch {
             recipesDao?.let { dao ->
@@ -79,6 +86,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    // function to check if a title is unique and already belonging to another recipe with a different id
     suspend fun uniqueTitleCheck(title: String, id: Long?): Boolean {
         return if (id == null) {
             recipesDao?.getTitle(title) != null

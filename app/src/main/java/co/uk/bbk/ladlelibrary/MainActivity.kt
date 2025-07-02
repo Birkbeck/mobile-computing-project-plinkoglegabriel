@@ -18,6 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.findNavController
 import co.uk.bbk.ladlelibrary.MainViewModel
 
+// The MainActivity that handles navigation and supports the fragment-based and MVVM architecture of the app
 class MainActivity : AppCompatActivity() {
     // Binding to the layout for this activity
     private lateinit var binding: ActivityMainBinding
